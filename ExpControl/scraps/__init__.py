@@ -1,0 +1,1 @@
+from .scraps import ScrapsWrapper
