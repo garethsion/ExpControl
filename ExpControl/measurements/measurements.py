@@ -28,8 +28,12 @@ class Measurements:
     #def setup_vna(self,power=-30,avgs=1,measure='S21',format1='MLOG',format2='PHAS'):
     #    self.__ic.setup_vna(power=power,avgs=avgs,measure=measure,format1=format1,format2=format2)
         
-    def setup_vna(self,power=-30,avgs=1,measure='S21'):
-        self.__ic.setup_vna(power=power,avgs=avgs,measure=measure)
+    def setup_vna(self,power=-30,avgs=1,measure='S21',timeout=5000):
+        #self.__ic.setup_vna(power=power,avgs=avgs,measure=measure)
+        self.__vna.set('power', power)
+        self.__vna.set('avg', avgs)
+        self.__vna.set('measure', measure)
+        self.__vna.timeout.set(timeout)
      
     def setup_keithley(self,current=10e-06, complvoltage = 10e-03):
         self.__keithley_current = current
@@ -54,35 +58,7 @@ class Measurements:
         temp=interpolate_temp(resistance);
         return temp
     
-    # def trace(self,start,stop,npts=1001,bandwidth=1000,background=None,plotting=True):
-        # self.__vna.set('npts', npts)
-        # self.__vna.set('bandwidth', bandwidth)
-
-        # freqs = np.linspace(start, stop, npts)
-        # self.__vna.set('start', start)
-        # self.__vna.set('stop', stop)
-        
-        # t0 = datetime.datetime.now()
-        # data = self.__vna.trace()
-        # print('Trace took {}'.format(datetime.datetime.now() - t0))
-        
-        # NoneType = type(None)
-        # if not isinstance(background, NoneType):
-            # data[0] -= background
-        
-        # if plotting:
-            # plt.figure(figsize=(12,10))
-            # plt.plot(freqs/1e9, data[0],linewidth=3.0)
-            # # plt.plot(freqs/1e9, data[1])
-            # plt.xlabel('Frequency (GHz)',fontsize=28)
-            # plt.ylabel('$S_{21}$ (dB)',fontsize=28)
-            # plt.title('{:.4f} GHz - {:.4f} GHz'.format(start*1e-09,stop*1e-09),fontsize=30)
-            # plt.grid()
-            # plt.show()
-
-        # return freqs,data
-        
-    def trace(self,start,stop,npts=1001,bandwidth=1000):
+    def trace(self,start,stop,npts=1001,bandwidth=1000,background=None,plotting=True):
         self.__vna.set('npts', npts)
         self.__vna.set('bandwidth', bandwidth)
 
@@ -94,16 +70,45 @@ class Measurements:
         data = self.__vna.trace()
         print('Trace took {}'.format(datetime.datetime.now() - t0))
         
-        plt.figure(figsize=(12,10))
-        plt.plot(freqs/1e9, data[0],linewidth=3.0)
-        # plt.plot(freqs/1e9, data[1])
-        plt.xlabel('Frequency (GHz)',fontsize=28)
-        plt.ylabel('$S_{21}$ (dB)',fontsize=28)
-        plt.title('{:.4f} GHz - {:.4f} GHz'.format(start*1e-09,stop*1e-09),fontsize=30)
-        plt.grid()
-        plt.show()
+        NoneType = type(None)
+        if not isinstance(background, NoneType):
+            data[0] -= background
+        
+        if plotting:
+            plt.figure(figsize=(12,10))
+            plt.plot(freqs/1e9, data[0],linewidth=3.0)
+            # plt.plot(freqs/1e9, data[1])
+            plt.xlabel('Frequency (GHz)',fontsize=28)
+            plt.ylabel('$S_{21}$ (dB)',fontsize=28)
+            plt.title('{:.4f} GHz - {:.4f} GHz'.format(start*1e-09,stop*1e-09),fontsize=30)
+            plt.grid()
+            plt.show()
 
         return freqs,data
+        
+    # def trace(self,start,stop,npts=1001,bandwidth=1000):
+        # #self.__vna.timeout.set(5000)
+        # self.__vna.set('npts', npts)
+        # self.__vna.set('bandwidth', bandwidth)
+
+        # freqs = np.linspace(start, stop, npts)
+        # self.__vna.set('start', start)
+        # self.__vna.set('stop', stop)
+        
+        # t0 = datetime.datetime.now()
+        # data = self.__vna.trace()
+        # print('Trace took {}'.format(datetime.datetime.now() - t0))
+        
+        # plt.figure(figsize=(12,10))
+        # plt.plot(freqs/1e9, data[0],linewidth=3.0)
+        # # plt.plot(freqs/1e9, data[1])
+        # plt.xlabel('Frequency (GHz)',fontsize=28)
+        # plt.ylabel('$S_{21}$ (dB)',fontsize=28)
+        # plt.title('{:.4f} GHz - {:.4f} GHz'.format(start*1e-09,stop*1e-09),fontsize=30)
+        # plt.grid()
+        # plt.show()
+
+        # return freqs,data
     
     def set_field_sweep_params(self, blow=0, bhigh=301, bit=2, field_limit=20002, flow=7e09, fhigh=8e09):
         self.__blow = blow
