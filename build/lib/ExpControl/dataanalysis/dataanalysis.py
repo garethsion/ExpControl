@@ -36,6 +36,8 @@ class DataAnalysis:
         
         dic = {'x':x,'y':y,'fit':out.best_fit,'out':out,'sigma':sigma.value,
                'centre':centre.value,'Q':centre.value/sigma.value}
+               
+        
         
         df = pd.DataFrame(data=dic)
 
@@ -43,7 +45,7 @@ class DataAnalysis:
             print(out.params['amplitude'],out.params['q'],out.params['sigma'])
             plt.plot(x,y, color = 'orange', label = 'Data')
             plt.plot(x, out.best_fit, color = 'darkslateblue',label = 'Fano resonance fit')
-        return df
+        return dic
 
     def fit_3dB(self,freq,trace,freqbounds=()):
 

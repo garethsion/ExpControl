@@ -1,4 +1,5 @@
 import qcodes as qc
+#from qcodes.instrument_drivers.Keysight.Keysight_E5071C import Keysight_E5071C
 from qcodes.instrument_drivers.Keysight.Keysight_E5071C import Keysight_E5071C
 from qcodes.instrument_drivers.yokogawa.GS200 import GS200
 from .Keithley_2400 import Keithley_2400
@@ -47,13 +48,17 @@ class InstrumentControl:
     #    self.__vna.set('format2',format2)
     #    self.__vna.timeout.set(5000)
     
-    def setup_vna(self,power=-30,avgs=1,measure='S21'):
+    def setup_vna(self,power=-30,avgs=1,measure='S21',format1='MLOG',format2='PHAS',format3='PHAS',format4='PHAS'):
         #power = -30
         #avgs = 1
 
         self.__vna.set('power', power)
         self.__vna.set('avg', avgs)
         self.__vna.set('measure', measure)
+        #self.__vna.set('format1',format1)
+        #self.__vna.set('format2',format2)
+        #self.__vna.set('format2',format3)
+        #self.__vna.set('format3',format4)
         self.__vna.timeout.set(5000)
         
     def setup_keithley(self):
@@ -68,11 +73,15 @@ class InstrumentControl:
         self.__keithley.curr(10e-6) #For safety set low current suring setup
         self.__keithley.compliancev(10e-3)
 
+    def field_cal(self,field_gauss):
+        cal = 1.371742112
+        return field_gauss*cal # in Gauss
+    
     def set_zero_field(self):
         self.__prx.open()
-        self.__prx.write('CF+0.00')
+        self.__prx.write('CF+102.10') # Zero point is 102.10 Gauss
         self.__prx.close()
-    
+          
     def set_zero_current(self,out='off'):
         self.__gs.current(0)
         self.set_current_source_output(out=out)

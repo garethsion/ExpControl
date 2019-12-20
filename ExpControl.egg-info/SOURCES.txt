@@ -7,9 +7,14 @@ ExpControl.egg-info/requires.txt
 ExpControl.egg-info/top_level.txt
 ExpControl/dataanalysis/__init__.py
 ExpControl/dataanalysis/dataanalysis.py
+ExpControl/database/__init__.py
+ExpControl/database/databasehandler.py
 ExpControl/instrumentcontrol/Keithley_2400.py
+ExpControl/instrumentcontrol/Keysight_E5071C.py
+ExpControl/instrumentcontrol/Keysight_E5071C_Modified.py
 ExpControl/instrumentcontrol/RepeatingTimer.py
 ExpControl/instrumentcontrol/ResistanceSense.py
+ExpControl/instrumentcontrol/RotatingStage.py
 ExpControl/instrumentcontrol/__init__.py
 ExpControl/instrumentcontrol/instrumentcontrol.py
 ExpControl/instrumentcontrol/interpolate_temp.py
