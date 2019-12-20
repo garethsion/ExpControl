@@ -3,6 +3,7 @@ import qcodes as qc
 from qcodes.instrument_drivers.Keysight.Keysight_E5071C import Keysight_E5071C
 from qcodes.instrument_drivers.yokogawa.GS200 import GS200
 from .Keithley_2400 import Keithley_2400
+from .RotatingStage import RotatingStage
 import pyvisa
 import visa
 
@@ -36,6 +37,10 @@ class InstrumentControl:
         self.__prx.write('CF+0.00')
         self.__prx.close()    
         return self.__prx
+       
+    def connect_to_rotating_stage(self):       
+        serial_address = 'ASRL23::INSTR'
+        self.__stage = RotatingStage('stage',serial_address)
     
     #def setup_vna(self,power=-30,avgs=1,measure='S21',format1='MLOG',format2='PHAS'):
     #    #power = -30

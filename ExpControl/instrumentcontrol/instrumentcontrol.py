@@ -3,6 +3,7 @@ import qcodes as qc
 from qcodes.instrument_drivers.Keysight.Keysight_E5071C import Keysight_E5071C
 from qcodes.instrument_drivers.yokogawa.GS200 import GS200
 from .Keithley_2400 import Keithley_2400
+from .RotatingStage import RotatingStage
 import pyvisa
 import visa
 
@@ -36,6 +37,24 @@ class InstrumentControl:
         self.__prx.write('CF+0.00')
         self.__prx.close()    
         return self.__prx
+       
+    def connect_to_rotating_stage(self):       
+        serial_address = 'ASRL23::INSTR'
+        self.__stage = RotatingStage('stage',serial_address)
+        
+    def fast_rotation(self,global_step=0,steps=0,direction='left'):
+        rot_direction = 'direction'  # Right = clockwise viewed from above; left = counter clockwise
+        stage.steps(steps)
+
+        if rot_direction == 'left':
+            stage.stepleft()
+            step_global = step_global + steps
+            
+        if rot_direction == 'right':
+            stage.stepright()
+            step_global = step_global - steps
+            
+        print('Global Step = {}'.format(step_global))
     
     #def setup_vna(self,power=-30,avgs=1,measure='S21',format1='MLOG',format2='PHAS'):
     #    #power = -30

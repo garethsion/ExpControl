@@ -7,7 +7,7 @@ from ExpControl.instrumentcontrol import InstrumentControl
 from .interpolate_temp import interpolate_temp
 
 class Measurements:
-    def __init__(self,instr=['vna','gs','prx','keithley']):
+    def __init__(self,instr=['vna','gs','prx','keithley','stage']):
 
         self.__ic = InstrumentControl()
         
@@ -24,6 +24,9 @@ class Measurements:
         
         if 'keithley' in instr:
             self.__keithley = self.__ic.connect_to_keithley_2400()
+            
+        if 'stage' in instr:
+            self.__stage = self.__ic.connect_to_rotating_stage()
         
         return
 

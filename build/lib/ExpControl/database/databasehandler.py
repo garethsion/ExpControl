@@ -36,7 +36,9 @@ class DatabaseHandler:
                                 specs=[ParamSpec('caled_field', 'numeric', unit='G'),
                                        ParamSpec('frequency', 'array', unit='Hz'),
                                        ParamSpec('magnitude', 'array', unit='dB'),
-                                       ParamSpec('phase', 'array', unit='deg')])
+                                       ParamSpec('phase', 'array', unit='deg'),
+                                       ParamSpec('temp', 'numeric', unit='K'),
+                                       ParamSpec('set_power', 'numeric', unit='dB')])
         self.data_set.mark_started()
         
         return self.data_set
